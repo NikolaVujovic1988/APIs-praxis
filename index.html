@@ -8,7 +8,8 @@
 
     <script>
         async function getSynonyms() {
-            let url = 'https://www.openthesaurus.de/synonyme/search?q=test&format=application/json';
+            let query = document.getElementById('searchSynonym').value;
+            let url = `https://www.openthesaurus.de/synonyme/search?q=${query}&format=application/json`;
             let response = await fetch(url);
             let responseAsJson = await response.json();
             let synsets = responseAsJson['synsets'];
@@ -38,6 +39,8 @@
 </head>
 
 <body>
+
+    <input id="searchSynonym" type="text" placeholder="searh for synonym">
 
     <button onclick="getSynonyms()">Get Synonyms</button>
 
