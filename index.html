@@ -11,8 +11,28 @@
             let url = 'https://www.openthesaurus.de/synonyme/search?q=test&format=application/json';
             let response = await fetch(url);
             let responseAsJson = await response.json();
-            console.log('response is', responseAsJson);
+            let synsets = responseAsJson['synsets'];
+            renderSynsets(synsets);
         }
+
+        function renderSynsets(synsets) {
+            let container = document.getElementById('container');
+
+            container.innerHTML = `<div> Es wurden ${synsets.length} synsets geladen</div>`;
+
+            for (let i = 0; i < synsets.length; i++) {
+                const synset = synsets[i];
+                let terms = synset['terms']; //ist ein Array
+                container.innerHTML += `<h2>Synonym-Set mit ID ${synset['id']} </h2>`;
+
+                for (let j = 0; j < terms.length; j++) {
+                    const term = terms[j];
+                    
+                    document.getElementById('container').innerHTML += `<div>${term['term']}</div>`;
+                }
+            }
+        }
+
     </script>
 
 </head>
@@ -20,6 +40,10 @@
 <body>
 
     <button onclick="getSynonyms()">Get Synonyms</button>
+
+    <div id="container">
+
+    </div>
     
 
 </body>
